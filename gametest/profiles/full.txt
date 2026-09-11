@@ -1,0 +1,5 @@
+bypassandnonpositivedamagedonotwearcurio
+damageeventbreaksexhaustedheadcurio
+damageeventwearsequippedheadcurio
+othercurioslotsandinventoryarenotworn
+registrydurabilityrepairandrecipearelive

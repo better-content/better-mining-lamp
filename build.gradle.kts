@@ -8,6 +8,7 @@ plugins {
 group = property("mod_group_id") as String
 version = property("mod_version") as String
 base { archivesName.set(property("artifact_name") as String) }
+val gameTestFixtures = sourceSets.create("gameTestFixtures")
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
@@ -29,6 +30,7 @@ minecraft {
         create("client")
         create("server") { arg("--nogui") }
         create("gameTestServer") {
+            mods { named(project.property("mod_id") as String) { source(gameTestFixtures) } }
             workingDirectory(project.file("run-gametest"))
             property("forge.enableGameTest", "true")
             property("forge.gameTestServer", "true")
@@ -77,16 +79,6 @@ tasks.withType<JavaCompile>().configureEach { options.release.set(17) }
 tasks.test { useJUnitPlatform() }
 
 tasks.register("verifyFast") { dependsOn(tasks.named("test"), tasks.named("assemble")) }
-val resetGameTestRun by tasks.registering(Delete::class) {
-    delete(layout.projectDirectory.dir("run-gametest/world"))
-    delete(layout.projectDirectory.dir("run-gametest/logs"))
-    delete(layout.projectDirectory.dir("run-gametest/crash-reports"))
-}
-val syncGameTestStructures by tasks.registering(Sync::class) {
-    from(layout.projectDirectory.dir("src/main/resources/gameteststructures"))
-    into(layout.projectDirectory.dir("run-gametest/gameteststructures"))
-}
-tasks.matching { it.name.startsWith("prepareRunGameTestServer") }.configureEach {
-    dependsOn(resetGameTestRun, syncGameTestStructures)
-}
 tasks.register("verifyFull") { dependsOn(tasks.named("verifyFast"), tasks.named("runGameTestServer")) }
+
+apply(from = "gradle/gametest-evidence.gradle")

@@ -34,3 +34,14 @@ leather, bracket, and warm-lens palette documented in `art/README.md`.
 ./gradlew verifyFast
 ./gradlew verifyFull
 ```
+
+`verifyFull` runs the deterministic checks and five GameTests against the actual Curios inventory
+and registered Forge damage handler: ordinary wear, excluded damage, breakage, slot isolation,
+and the existing registry/repair/recipe contract. GameTest-only player slot data lives in
+`src/gameTestFixtures/resources` and is excluded from the runtime JAR. Rendering and dynamic-light
+appearance remain manual checks.
+
+Each GameTest invocation retains a fresh world, logs, and `execution.json` under
+`build/gametest/<run-token>/`. Verification requires the current token and every reviewed test ID
+in `gametest/profiles/full.txt` to register, execute, and pass. `verifyGameTestEvidenceGuard` checks
+that missing, stale, incomplete, duplicate, and failed results are rejected without starting Forge.
