@@ -1,6 +1,6 @@
-package com.bettercontent.mininghelmet.client;
+package com.bettercontent.bettermininglamp.client;
 
-import com.bettercontent.mininghelmet.MiningHelmetItem;
+import com.bettercontent.bettermininglamp.MiningHelmetItem;
 import dev.lambdaurora.lambdynlights.api.DynamicLightHandler;
 import dev.lambdaurora.lambdynlights.api.DynamicLightHandlers;
 import net.minecraft.world.entity.EntityType;

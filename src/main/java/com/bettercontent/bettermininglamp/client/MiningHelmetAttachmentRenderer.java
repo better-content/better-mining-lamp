@@ -1,6 +1,6 @@
-package com.bettercontent.mininghelmet.client;
+package com.bettercontent.bettermininglamp.client;
 
-import com.bettercontent.mininghelmet.MiningHelmetMod;
+import com.bettercontent.bettermininglamp.MiningHelmetMod;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
@@ -29,11 +29,11 @@ import top.theillusivec4.curios.api.client.ICurioRenderer;
 
 public final class MiningHelmetAttachmentRenderer implements ICurioRenderer {
     public static final ModelLayerLocation LAYER = new ModelLayerLocation(
-            new ResourceLocation(MiningHelmetMod.MOD_ID, "mining_helmet_attachment"), "main");
+            new ResourceLocation(MiningHelmetMod.MOD_ID, "better_mining_lamp_attachment"), "main");
     public static final ResourceLocation TEXTURE = new ResourceLocation(
-            MiningHelmetMod.MOD_ID, "textures/entity/mining_helmet_curio.png");
+            MiningHelmetMod.MOD_ID, "textures/entity/better_mining_lamp_curio.png");
     public static final ResourceLocation EMISSIVE = new ResourceLocation(
-            MiningHelmetMod.MOD_ID, "textures/entity/mining_helmet_curio_emissive.png");
+            MiningHelmetMod.MOD_ID, "textures/entity/better_mining_lamp_curio_emissive.png");
     private final HumanoidModel<LivingEntity> model;
 
     public MiningHelmetAttachmentRenderer() {

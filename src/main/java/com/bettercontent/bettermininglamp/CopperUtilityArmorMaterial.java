@@ -1,4 +1,4 @@
-package com.bettercontent.mininghelmet;
+package com.bettercontent.bettermininglamp;
 
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;

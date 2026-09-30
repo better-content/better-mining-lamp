@@ -1,4 +1,4 @@
-package com.bettercontent.mininghelmet;
+package com.bettercontent.bettermininglamp;
 
 import org.junit.jupiter.api.Test;
 

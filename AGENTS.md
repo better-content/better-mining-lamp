@@ -2,10 +2,10 @@
 
 ## Scope
 
-This repository contains the Better Content-owned Forge mod **Mining Helmet**.
+This repository contains the Better Content-owned Forge mod **Better Mining Lamp**.
 
-- Mod ID: `mining_helmet`
-- Artifact: `mining-helmet-<version>.jar`
+- Mod ID: `better_mining_lamp`
+- Artifact: `better-mining-lamp-<version>.jar`
 - Java 17, Minecraft 1.20.1, Forge 47.4.13
 - Curios is required; Sodium/Embeddium Dynamic Lights is an optional client integration.
 

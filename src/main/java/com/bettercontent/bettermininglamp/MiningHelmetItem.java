@@ -1,4 +1,4 @@
-package com.bettercontent.mininghelmet;
+package com.bettercontent.bettermininglamp;
 
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -32,7 +32,7 @@ public final class MiningHelmetItem extends ArmorItem implements ICurioItem {
     @Override
     public String getArmorTexture(ItemStack stack, net.minecraft.world.entity.Entity entity,
                                   EquipmentSlot slot, String type) {
-        return MiningHelmetMod.MOD_ID + ":textures/models/armor/mining_helmet_layer_1.png";
+        return MiningHelmetMod.MOD_ID + ":textures/models/armor/better_mining_lamp_layer_1.png";
     }
 
     public static boolean isWorn(LivingEntity entity) {

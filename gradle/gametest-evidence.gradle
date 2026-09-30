@@ -6,10 +6,10 @@ def runDirectory = layout.buildDirectory.dir('gametest/' + runToken)
 def executionReport = runDirectory.map { it.file('execution.json') }
 def expectedProfile = file('gametest/profiles/full.txt')
 
-minecraft.runs.gameTestServer.property('bc.gametest.mining_helmet.report', executionReport.get().asFile.absolutePath)
+minecraft.runs.gameTestServer.property('bc.gametest.better_mining_lamp.report', executionReport.get().asFile.absolutePath)
 
 minecraft.runs.gameTestServer.workingDirectory(runDirectory.get().asFile)
-minecraft.runs.gameTestServer.property('bc.gametest.mining_helmet.runToken', runToken)
+minecraft.runs.gameTestServer.property('bc.gametest.better_mining_lamp.runToken', runToken)
 
 def validateExecution = { File reportFile, List<String> expected, String token ->
         if (!expected || expected.toSet().size() != expected.size()) {

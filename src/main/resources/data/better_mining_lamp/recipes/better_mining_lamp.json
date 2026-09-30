@@ -11,7 +11,7 @@
     "C": { "item": "minecraft:copper_ingot" }
   },
   "result": {
-    "item": "mining_helmet:mining_helmet"
+    "item": "better_mining_lamp:better_mining_lamp"
   },
   "show_notification": true
 }

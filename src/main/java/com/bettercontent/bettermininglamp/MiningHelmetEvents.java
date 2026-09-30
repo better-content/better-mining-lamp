@@ -1,4 +1,4 @@
-package com.bettercontent.mininghelmet;
+package com.bettercontent.bettermininglamp;
 
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.LivingEntity;

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "mining_helmet:item/mining_helmet"
+    "layer0": "better_mining_lamp:item/better_mining_lamp"
   }
 }

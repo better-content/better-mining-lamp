@@ -1,4 +1,4 @@
-package com.bettercontent.mininghelmet.gametest;
+package com.bettercontent.bettermininglamp.gametest;
 
 import com.google.gson.GsonBuilder;
 import net.minecraft.gametest.framework.GameTestInfo;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 /** Emits actual runtime discovery and completion evidence for the repository gate. */
-@Mod.EventBusSubscriber(modid = "mining_helmet")
+@Mod.EventBusSubscriber(modid = "better_mining_lamp")
 public final class ExecutionReporter implements TestReporter {
     private final Path output;
     private final Map<String, Object> report = new LinkedHashMap<>();
@@ -29,9 +29,9 @@ public final class ExecutionReporter implements TestReporter {
     private ExecutionReporter(Path output) {
         this.output = output;
         report.put("profile", "full");
-        report.put("run_token", System.getProperty("bc.gametest.mining_helmet.runToken"));
+        report.put("run_token", System.getProperty("bc.gametest.better_mining_lamp.runToken"));
         report.put("registered", GameTestRegistry.getAllTestFunctions().stream()
-            .filter(test -> test.getStructureName().startsWith("mining_helmet:"))
+            .filter(test -> test.getStructureName().startsWith("better_mining_lamp:"))
             .map(test -> test.getTestName()).sorted().toList());
         report.put("results", results);
         report.put("finished", false);
@@ -40,7 +40,7 @@ public final class ExecutionReporter implements TestReporter {
 
     @SubscribeEvent
     public static void install(ServerAboutToStartEvent event) {
-        String destination = System.getProperty("bc.gametest.mining_helmet.report");
+        String destination = System.getProperty("bc.gametest.better_mining_lamp.report");
         if (destination != null) GlobalTestReporter.replaceWith(new ExecutionReporter(Path.of(destination)));
     }
 
@@ -55,7 +55,7 @@ public final class ExecutionReporter implements TestReporter {
     }
 
     private void record(GameTestInfo test, String status) {
-        if (!test.getStructureName().startsWith("mining_helmet:")) return;
+        if (!test.getStructureName().startsWith("better_mining_lamp:")) return;
         var result = new LinkedHashMap<String, Object>();
         result.put("id", test.getTestName());
         result.put("status", status);

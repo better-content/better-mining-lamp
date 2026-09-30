@@ -1,6 +1,6 @@
 # Provisional art source
 
-`source/mining-helmet-concept.png` was generated with the built-in image-generation tool as a
+`source/better-mining-lamp-concept.png` was generated with the built-in image-generation tool as a
 replaceable morphology reference. Shipped pixel textures are deterministic, palette-constrained
 provisional assets.
 

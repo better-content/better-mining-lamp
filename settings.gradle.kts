@@ -6,4 +6,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = "mining-helmet"
+rootProject.name = "better-mining-lamp"

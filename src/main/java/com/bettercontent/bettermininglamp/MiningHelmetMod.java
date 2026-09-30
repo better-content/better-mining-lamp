@@ -1,6 +1,6 @@
-package com.bettercontent.mininghelmet;
+package com.bettercontent.bettermininglamp;
 
-import com.bettercontent.mininghelmet.client.MiningHelmetClient;
+import com.bettercontent.bettermininglamp.client.MiningHelmetClient;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
@@ -17,9 +17,9 @@ import net.minecraftforge.registries.RegistryObject;
 
 @Mod(MiningHelmetMod.MOD_ID)
 public final class MiningHelmetMod {
-    public static final String MOD_ID = "mining_helmet";
+    public static final String MOD_ID = "better_mining_lamp";
     private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
-    public static final RegistryObject<Item> MINING_HELMET = ITEMS.register("mining_helmet", MiningHelmetItem::new);
+    public static final RegistryObject<Item> MINING_HELMET = ITEMS.register("better_mining_lamp", MiningHelmetItem::new);
 
     public MiningHelmetMod() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();

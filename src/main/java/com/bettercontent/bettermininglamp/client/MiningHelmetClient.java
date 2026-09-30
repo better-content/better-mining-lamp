@@ -1,6 +1,6 @@
-package com.bettercontent.mininghelmet.client;
+package com.bettercontent.bettermininglamp.client;
 
-import com.bettercontent.mininghelmet.MiningHelmetMod;
+import com.bettercontent.bettermininglamp.MiningHelmetMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
