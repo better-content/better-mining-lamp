@@ -1,5 +1,11 @@
 # Better Mining Lamp
 
+## Scope and authority
+
+This repository owns its mod-specific behavior and authoring inputs. Read [local instructions](AGENTS.md)
+and the [shared documentation/policy index](../../better-content-modpack/docs/README.md).
+
+
 Better Mining Lamp adds one always-on copper utility cap for Better Content:
 `better_mining_lamp:better_mining_lamp`. It has 165 durability, one armor point when worn in the vanilla
 head slot, and repairs with copper ingots. Its survival recipe uses one lantern and five copper
@@ -41,7 +47,9 @@ and the existing registry/repair/recipe contract. GameTest-only player slot data
 `src/gameTestFixtures/resources` and is excluded from the runtime JAR. Rendering and dynamic-light
 appearance remain manual checks.
 
-Each GameTest invocation retains a fresh world, logs, and `execution.json` under
+During the active task, each GameTest invocation keeps a fresh world, logs, and `execution.json` under
 `build/gametest/<run-token>/`. Verification requires the current token and every reviewed test ID
 in `gametest/profiles/full.txt` to register, execute, and pass. `verifyGameTestEvidenceGuard` checks
 that missing, stale, incomplete, duplicate, and failed results are rejected without starting Forge.
+Dispose of worlds, reports, build/provider artifacts and idle caches at handoff under the
+[shared disposal policy](../../better-content-modpack/docs/policies/generated-data.md).
