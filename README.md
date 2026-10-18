@@ -51,5 +51,6 @@ During the active task, each GameTest invocation keeps a fresh world, logs, and 
 `build/gametest/<run-token>/`. Verification requires the current token and every reviewed test ID
 in `gametest/profiles/full.txt` to register, execute, and pass. `verifyGameTestEvidenceGuard` checks
 that missing, stale, incomplete, duplicate, and failed results are rejected without starting Forge.
-Dispose of worlds, reports, build/provider artifacts and idle caches at handoff under the
-[shared disposal policy](../../better-content-modpack/docs/policies/generated-data.md).
+Retain worlds, reports, build/provider artifacts and caches across handoffs by default under the
+[shared retention policy](../../better-content-modpack/docs/policies/generated-data.md).
+Finishing activity deletes nothing; purge is separately gated.
