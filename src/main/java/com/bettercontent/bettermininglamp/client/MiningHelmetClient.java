@@ -1,6 +1,7 @@
 package com.bettercontent.bettermininglamp.client;
 
 import com.bettercontent.bettermininglamp.MiningHelmetMod;
+import com.bettercontent.bettermininglamp.diagnostics.PlaytestDiagnostics;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -20,6 +21,9 @@ public final class MiningHelmetClient {
         event.enqueueWork(() -> {
             CuriosRendererRegistry.register(MiningHelmetMod.MINING_HELMET.get(), MiningHelmetAttachmentRenderer::new);
             if (ModList.get().isLoaded("sodiumdynamiclights")) DynamicLightsCompat.register();
+            else if (PlaytestDiagnostics.LOG.enabled("integration")) {
+                PlaytestDiagnostics.LOG.event("integration", "lamp.light_handler", "client", "unavailable", "optional_provider_absent", null);
+            }
         });
     }
 }

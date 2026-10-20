@@ -1,6 +1,7 @@
 package com.bettercontent.bettermininglamp.client;
 
 import com.bettercontent.bettermininglamp.MiningHelmetItem;
+import com.bettercontent.bettermininglamp.diagnostics.PlaytestDiagnostics;
 import dev.lambdaurora.lambdynlights.api.DynamicLightHandler;
 import dev.lambdaurora.lambdynlights.api.DynamicLightHandlers;
 import net.minecraft.world.entity.EntityType;
@@ -18,5 +19,8 @@ final class DynamicLightsCompat {
 
                     @Override public boolean isWaterSensitive(Player player) { return true; }
                 }));
+        if (PlaytestDiagnostics.LOG.enabled("integration")) {
+            PlaytestDiagnostics.LOG.event("integration", "lamp.light_handler", "client", "registered", "native_registration_returned", null);
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.bettercontent.bettermininglamp;
 
+import com.bettercontent.bettermininglamp.diagnostics.PlaytestDiagnostics;
+import com.bettercontent.bettermininglamp.diagnostics.PlaytestLog;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -20,8 +22,15 @@ public final class MiningHelmetEvents {
                 .filter(result -> "head".equals(result.slotContext().identifier()))
                 .ifPresent(result -> {
                     int wear = curioWear(event.getAmount());
+                    boolean observing = PlaytestDiagnostics.LOG.enabled("durability");
+                    int before = observing ? result.stack().getDamageValue() : -1;
                     result.stack().hurtAndBreak(wear, wearer,
                             brokenWearer -> ICurio.playBreakAnimation(result.stack(), brokenWearer));
+                    if (observing) {
+                        PlaytestDiagnostics.LOG.event("durability", "lamp.damage_processed", "server", "processed", "native_hurt_and_break_returned",
+                                () -> PlaytestLog.fields("requested_wear", wear, "damage_before", before,
+                                        "damage_after", result.stack().getDamageValue(), "stack_empty", result.stack().isEmpty()));
+                    }
                 });
     }
 

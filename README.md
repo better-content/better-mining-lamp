@@ -20,6 +20,17 @@ Sodium/Embeddium Dynamic Lights is optional. When present, the helmet emits lumi
 held, dropped, worn as armor, or worn as a head Curio; its light is water-sensitive. There is no
 toggle, fuel, key binding, menu, or hidden statistic.
 
+## Bounded playtest diagnostics
+
+Loader SLF4J `bc.playtest.better_mining_lamp.*` reports one INFO startup/provider/source status
+(UNKNOWN when own metadata is absent), DEBUG actual Curios damage processing and optional native
+light-handler registration/absence. Requested wear is distinguished from observed stack damage
+and breakage; native Unbreaking/RNG semantics are unchanged. Registration is not visible-light
+proof. Luminance queries, render frames, inventories and item tags are never logged or scanned.
+One mod-wide 120/minute burst20 detail bucket, 256 aggregate keys, 2048-character record limit
+and 30-second summaries bound output. Client disconnect/server stop clears keys without bucket
+refill. Standalone stays INFO; the pack selects scoped DEBUG.
+
 ## Stable visual asset contract
 
 - Item model: `assets/better_mining_lamp/models/item/better_mining_lamp.json`
