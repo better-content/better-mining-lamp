@@ -60,8 +60,12 @@ appearance remain manual checks.
 
 During the active task, each GameTest invocation keeps a fresh world, logs, and `execution.json` under
 `build/gametest/<run-token>/`. Verification requires the current token and every reviewed test ID
-in `gametest/profiles/full.txt` to register, execute, and pass. `verifyGameTestEvidenceGuard` checks
-that missing, stale, incomplete, duplicate, and failed results are rejected without starting Forge.
+in `gametest/profiles/full.txt` to register, execute, and pass. Fresh fixtures provision an absent-only
+comment-only `server.properties` before native startup; retained/custom property bytes are never
+overwritten. The native `logs/latest.log` must exist and contain no ERROR/FATAL operations, even
+when Minecraft's tests and process return success. `verifyGameTestEvidenceGuard` checks
+that missing, stale, incomplete, duplicate, and failed results are rejected without starting Forge,
+as well as absent-property creation, exact existing-property preservation and native ERROR/FATAL rejection.
 Retain worlds, reports, build/provider artifacts and caches across handoffs by default under the
 [shared retention policy](../../better-content-modpack/docs/policies/generated-data.md).
 Finishing activity deletes nothing; purge is separately gated.

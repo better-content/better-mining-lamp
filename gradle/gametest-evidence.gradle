@@ -30,8 +30,27 @@ def validateExecution = { File reportFile, List<String> expected, String token -
         if (failures) throw new GradleException("GameTests failed: ${failures}")
 }
 
+// A fresh native DedicatedServerSettings reads this before it can create defaults itself.
+// Provision only an absent file; a retained/custom fixture's effective properties stay untouched.
+def ensureServerProperties = { File directory ->
+    java.nio.file.Files.createDirectories(directory.toPath())
+    try {
+        java.nio.file.Files.writeString(directory.toPath().resolve('server.properties'),
+                '# Native GameTest defaults; populated by Minecraft.\n',
+                java.nio.file.StandardOpenOption.CREATE_NEW, java.nio.file.StandardOpenOption.WRITE)
+    } catch (java.nio.file.FileAlreadyExistsException alreadyPresent) {
+        // Preserve the exact existing bytes; no normalization or override of native settings.
+    }
+}
+def validateNativeLog = { File log ->
+    if (!log.isFile()) throw new GradleException("Missing native GameTest log: ${log}")
+    def failures = log.readLines().findAll { it =~ /\[[^\]\r\n]+\/(?:ERROR|FATAL)\]/ }
+    if (failures) throw new GradleException("Native GameTest ERROR/FATAL diagnostics: ${failures.take(8)}")
+}
+
 tasks.matching { it.name == 'runGameTestServer' }.configureEach {
     doFirst {
+        ensureServerProperties(runDirectory.get().asFile)
         java.nio.file.Files.deleteIfExists(executionReport.get().asFile.toPath())
         copy {
             from(file('src/main/resources/gameteststructures').isDirectory() ? file('src/main/resources/gameteststructures') : file('gameteststructures'))
@@ -41,6 +60,7 @@ tasks.matching { it.name == 'runGameTestServer' }.configureEach {
     doLast {
         def expected = expectedProfile.readLines().collect { it.trim() }.findAll { it && !it.startsWith('#') }
         validateExecution(executionReport.get().asFile, expected, runToken)
+        validateNativeLog(runDirectory.get().file('logs/latest.log').asFile)
         logger.lifecycle("Verified ${expected.size()} executed GameTests in profile full: ${executionReport.get().asFile}")
     }
 }
@@ -73,7 +93,29 @@ tasks.register('verifyGameTestEvidenceGuard') {
         boolean rejectedMissing = false
         try { validateExecution(fixture, ['required'], 'current') } catch (Exception expected) { rejectedMissing = true }
         if (!rejectedMissing) throw new GradleException('Execution guard accepted missing evidence')
-        logger.lifecycle('GameTest execution guard rejected 11 invalid/missing evidence cases')
+        def propertiesFixture = layout.buildDirectory.dir('gametest-guard-fixtures/properties-' + UUID.randomUUID()).get().asFile
+        ensureServerProperties(propertiesFixture)
+        def propertiesFile = new File(propertiesFixture, 'server.properties')
+        if (!propertiesFile.isFile()) throw new GradleException('Missing fresh native server.properties')
+        propertiesFile.text = 'motd=preserve-custom\nmax-players=7\n'
+        def priorProperties = propertiesFile.bytes
+        ensureServerProperties(propertiesFixture)
+        if (!java.util.Arrays.equals(priorProperties, propertiesFile.bytes)) {
+            throw new GradleException('Native property preparation changed existing settings')
+        }
+        def nativeLogFixture = new File(propertiesFixture, 'native.log')
+        boolean rejectedMissingLog = false
+        try { validateNativeLog(nativeLogFixture) } catch (GradleException expected) { rejectedMissingLog = true }
+        if (!rejectedMissingLog) throw new GradleException('Native log guard accepted a missing sink')
+        nativeLogFixture.text = '[00:00:00] [main/INFO] [minecraft/GameTestServer]: payload mentions ERROR but is not severity\n'
+        validateNativeLog(nativeLogFixture)
+        for (severity in ['ERROR', 'FATAL']) {
+            nativeLogFixture.text = "[00:00:00] [main/${severity}] [minecraft/Settings]: test operation failure\n"
+            boolean rejectedLog = false
+            try { validateNativeLog(nativeLogFixture) } catch (GradleException expected) { rejectedLog = true }
+            if (!rejectedLog) throw new GradleException("Native log guard accepted ${severity}")
+        }
+        logger.lifecycle('GameTest execution guard rejected 11 invalid/missing evidence cases; native properties and ERROR/FATAL guards passed')
     }
 }
 tasks.matching { it.name == 'verifyFast' }.configureEach { dependsOn('verifyGameTestEvidenceGuard') }
