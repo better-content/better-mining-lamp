@@ -1,10 +1,6 @@
 # Better Mining Lamp
 
-## Scope and authority
-
-This repository owns its mod-specific behavior and authoring inputs. Read [local instructions](AGENTS.md)
-and the [shared documentation/policy index](../../better-content-modpack/docs/README.md).
-
+## Scope
 
 Better Mining Lamp adds one always-on copper utility cap for Better Content:
 `better_mining_lamp:better_mining_lamp`. It has 165 durability, one armor point when worn in the vanilla
@@ -66,6 +62,3 @@ overwritten. The native `logs/latest.log` must exist and contain no ERROR/FATAL 
 when Minecraft's tests and process return success. `verifyGameTestEvidenceGuard` checks
 that missing, stale, incomplete, duplicate, and failed results are rejected without starting Forge,
 as well as absent-property creation, exact existing-property preservation and native ERROR/FATAL rejection.
-Retain worlds, reports, build/provider artifacts and caches across handoffs by default under the
-[shared retention policy](../../better-content-modpack/docs/policies/generated-data.md).
-Finishing activity deletes nothing; purge is separately gated.
