@@ -20,8 +20,9 @@ public final class MiningHelmetClient {
     private static void setup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             CuriosRendererRegistry.register(MiningHelmetMod.MINING_HELMET.get(), MiningHelmetAttachmentRenderer::new);
-            if (ModList.get().isLoaded("sodiumdynamiclights")) DynamicLightsCompat.register();
-            else if (PlaytestDiagnostics.LOG.enabled("integration")) {
+            if (!com.bettercontent.bettermininglamp.MiningLampLightPolicy.registerIfAvailable(
+                    id -> ModList.get().isLoaded(id), () -> DynamicLightsCompat.register())
+                    && PlaytestDiagnostics.LOG.enabled("integration")) {
                 PlaytestDiagnostics.LOG.event("integration", "lamp.light_handler", "client", "unavailable", "optional_provider_absent", null);
             }
         });

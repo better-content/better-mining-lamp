@@ -14,7 +14,7 @@ final class DynamicLightsCompat {
         DynamicLightHandlers.registerDynamicLightHandler(EntityType.PLAYER,
                 DynamicLightHandler.makeLivingEntityHandler(new DynamicLightHandler<Player>() {
                     @Override public int getLuminance(Player player) {
-                        return MiningHelmetItem.isWorn(player) ? 15 : 0;
+                        return com.bettercontent.bettermininglamp.MiningLampLightPolicy.luminance(MiningHelmetItem.isWorn(player));
                     }
 
                     @Override public boolean isWaterSensitive(Player player) { return true; }

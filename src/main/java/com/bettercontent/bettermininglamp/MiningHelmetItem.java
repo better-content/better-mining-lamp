@@ -36,10 +36,12 @@ public final class MiningHelmetItem extends ArmorItem implements ICurioItem {
     }
 
     public static boolean isWorn(LivingEntity entity) {
-        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(MiningHelmetMod.MINING_HELMET.get())) return true;
+        if (MiningLampLightPolicy.isWorn(entity.getItemBySlot(EquipmentSlot.HEAD).is(MiningHelmetMod.MINING_HELMET.get()),
+                java.util.stream.Stream.empty())) return true;
         return CuriosApi.getCuriosInventory(entity)
-                .map(handler -> handler.findCurios(MiningHelmetMod.MINING_HELMET.get()).stream()
-                        .anyMatch(result -> "head".equals(result.slotContext().identifier())))
+                .map(handler -> MiningLampLightPolicy.isWorn(false,
+                        handler.findCurios(MiningHelmetMod.MINING_HELMET.get()).stream()
+                                .map(result -> result.slotContext().identifier())))
                 .orElse(false);
     }
 }
