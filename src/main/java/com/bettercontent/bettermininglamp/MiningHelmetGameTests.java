@@ -5,6 +5,8 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.entity.EquipmentSlot;
+import top.theillusivec4.curios.api.SlotContext;
 import net.minecraftforge.gametest.PrefixGameTestTemplate;
 import net.minecraftforge.registries.ForgeRegistries;
 import com.mojang.authlib.GameProfile;
@@ -79,6 +81,36 @@ public final class MiningHelmetGameTests {
         MinecraftForge.EVENT_BUS.post(new LivingDamageEvent(player, player.damageSources().playerAttack(player), 12.0F));
         helper.assertTrue(elsewhere.getDamageValue() == 0 && carried.getDamageValue() == 0,
             "Only a helmet equipped in the Curios head slot should wear");
+        helper.succeed();
+    }
+
+    @GameTest(templateNamespace = MiningHelmetMod.MOD_ID, template = "blank", timeoutTicks = 40)
+    public static void nativeCuriosHeadAdmissionRejectsDuplicateAndWrongSlot(GameTestHelper helper) {
+        ServerPlayer player = wearer(helper);
+        var item = (MiningHelmetItem) MiningHelmetMod.MINING_HELMET.get();
+        var proposed = new ItemStack(item);
+        var head = new SlotContext("head", player, 0, false, true);
+        var other = new SlotContext("curio", player, 0, false, true);
+        helper.assertTrue(item.canEquip(head, proposed), "Unoccupied Curios head must admit one lamp");
+        helper.assertTrue(!item.canEquip(other, proposed), "Other Curios slots must not admit the head lamp");
+        ItemStack armor = new ItemStack(item);
+        player.setItemSlot(EquipmentSlot.HEAD, armor);
+        try {
+            helper.assertTrue(!item.canEquip(head, proposed),
+                    "Armor-head lamp must reject a duplicate Curios-head lamp");
+        } finally {
+            player.setItemSlot(EquipmentSlot.HEAD, ItemStack.EMPTY);
+        }
+        ItemStack equipped = equip(player, "head");
+        try {
+            helper.assertTrue(!item.canEquip(head, proposed),
+                    "A second Curios-head lamp must be rejected by native wearer inventory");
+        } finally {
+            CuriosApi.getCuriosInventory(player).resolve().orElseThrow()
+                .getStacksHandler("head").orElseThrow().getStacks().setStackInSlot(0, ItemStack.EMPTY);
+        }
+        helper.assertTrue(!equipped.isEmpty() && item.canEquip(head, proposed),
+                "Removing owned lamp should restore admission without mutating candidate stack");
         helper.succeed();
     }
 

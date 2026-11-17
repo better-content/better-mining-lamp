@@ -38,6 +38,27 @@ class MiningHelmetPolicyTest {
     }
 
     @Test
+    void survivalRecipeRetainsItsAcquisitionRoots() throws Exception {
+        try (var input = getClass().getResourceAsStream(
+                "/data/better_mining_lamp/recipes/better_mining_lamp.json")) {
+            org.junit.jupiter.api.Assertions.assertNotNull(input);
+            var recipe = com.google.gson.JsonParser.parseReader(new java.io.InputStreamReader(
+                    input, java.nio.charset.StandardCharsets.UTF_8)).getAsJsonObject();
+            assertEquals("minecraft:crafting_shaped", recipe.get("type").getAsString());
+            var pattern = recipe.getAsJsonArray("pattern");
+            assertEquals(3, pattern.size());
+            assertEquals(" L ", pattern.get(0).getAsString());
+            assertEquals("CCC", pattern.get(1).getAsString());
+            assertEquals("C C", pattern.get(2).getAsString());
+            var keys = recipe.getAsJsonObject("key");
+            assertEquals(2, keys.size());
+            assertEquals("minecraft:lantern", keys.getAsJsonObject("L").get("item").getAsString());
+            assertEquals("minecraft:copper_ingot", keys.getAsJsonObject("C").get("item").getAsString());
+            assertEquals("better_mining_lamp:better_mining_lamp", recipe.getAsJsonObject("result").get("item").getAsString());
+        }
+    }
+
+    @Test
     void copperCapHasAuthoredDurabilityAndDefense() {
         assertEquals(165, CopperUtilityArmorMaterial.INSTANCE.getDurabilityForType(
                 net.minecraft.world.item.ArmorItem.Type.HELMET));
